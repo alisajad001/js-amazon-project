@@ -1,8 +1,12 @@
-import { cart, removeFromCart } from '../data/cart.js';
+import { cart, removeFromCart, updateCartQuantity } from '../data/cart.js';
 import { products } from '../data/products.js';
 import { twoDecimalPlaces } from './utils/money.js';
 
 let cartSummaryHTML = '';
+
+//js-checkout-items
+
+updateCartQuantity('js-checkout-items');
 
 cart.forEach((cartItem) => {
   const productId = cartItem.productId;
@@ -107,5 +111,7 @@ document.querySelectorAll('.delete-quantity-link').forEach((deleteLink) => {
     );
 
     cartItemContainer.remove();
+
+    updateCartQuantity('js-checkout-items');
   });
 });

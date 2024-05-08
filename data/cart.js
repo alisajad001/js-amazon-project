@@ -49,3 +49,12 @@ export function removeFromCart(productId) {
 
   saveToStorage();
 }
+
+// Update cart quantity
+export function updateCartQuantity(param) {
+  let cartQnt = 0;
+  cart.forEach((cartItem) => {
+    cartQnt += cartItem.quantity;
+  });
+  document.querySelector(`.${param}`).textContent = cartQnt;
+}

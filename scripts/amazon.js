@@ -1,8 +1,10 @@
-import { addToCart, cart } from '../data/cart.js';
+import { addToCart, updateCartQuantity } from '../data/cart.js';
 import { products } from '../data/products.js';
 import { twoDecimalPlaces } from './utils/money.js';
 
 let productsHTML = '';
+
+updateCartQuantity('cart-quantity');
 
 products.forEach((product) => {
   productsHTML += `
@@ -62,23 +64,14 @@ products.forEach((product) => {
 
 document.querySelector('.products-grid').innerHTML = productsHTML;
 
-function updateCartQuantity(index) {
-  let cartQnt = 0;
-  cart.forEach((cartItem) => {
-    cartQnt += cartItem.quantity;
-  });
-
-  document.querySelector('.cart-quantity').textContent = cartQnt;
-  document.querySelectorAll('.added-to-cart')[index].style.opacity = '1';
-}
-
 document.querySelectorAll('.add-to-cart-button').forEach((button, index) => {
   button.addEventListener('click', () => {
     const productId = button.dataset.productId;
 
     addToCart(productId);
-    updateCartQuantity(index);
 
+    document.querySelectorAll('.added-to-cart')[index].style.opacity = '1';
+    updateCartQuantity('cart-quantity');
     setTimeout(() => {
       document.querySelectorAll('.added-to-cart')[index].style.opacity = '0';
     }, 1000);
