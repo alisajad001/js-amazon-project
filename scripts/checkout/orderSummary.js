@@ -11,6 +11,7 @@ import {
 } from '../../data/deliveryOptions.js';
 import { getProduct } from '../../data/products.js';
 import { twoDecimalPlaces } from '../utils/money.js';
+import { renderPaymentSummary } from './paymentSummary.js';
 
 export function renderOrderSummary() {
   let cartSummaryHTML = '';
@@ -132,6 +133,7 @@ export function renderOrderSummary() {
       cartItemContainer.remove();
 
       updateCartQuantity('js-checkout-items');
+      renderPaymentSummary();
     });
   });
 
@@ -142,6 +144,7 @@ export function renderOrderSummary() {
       updateDeliveryOption(productId, deliveryOptionId);
 
       renderOrderSummary();
+      renderPaymentSummary();
     });
   });
 }
