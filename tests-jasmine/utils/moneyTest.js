@@ -1,4 +1,4 @@
-import { twoDecimalPlaces } from '../scripts/utils/money.js';
+import { twoDecimalPlaces } from '../../scripts/utils/money.js';
 
 describe('test suit: format currency', () => {
   it('converts cents into dollars', () => {
