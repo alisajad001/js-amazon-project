@@ -1,22 +1,22 @@
-import dayjs from 'https://unpkg.com/dayjs@1.11.10/esm/index.js';
+import dayjs from "https://unpkg.com/dayjs@1.11.10/esm/index.js";
 import {
   cart,
   removeFromCart,
   updateCartQuantity,
   updateDeliveryOption,
-} from '../../data/cart.js';
+} from "../../data/cart.js";
 import {
   deliveryOptions,
   getDeliveryOption,
-} from '../../data/deliveryOptions.js';
-import { getProduct } from '../../data/products.js';
-import { twoDecimalPlaces } from '../utils/money.js';
-import { renderPaymentSummary } from './paymentSummary.js';
+} from "../../data/deliveryOptions.js";
+import { getProduct } from "../../data/products.js";
+import { twoDecimalPlaces } from "../utils/money.js";
+import { renderPaymentSummary } from "./paymentSummary.js";
 
 export function renderOrderSummary() {
-  let cartSummaryHTML = '';
+  let cartSummaryHTML = "";
 
-  updateCartQuantity('js-checkout-items');
+  updateCartQuantity("js-checkout-items");
 
   cart.forEach((cartItem) => {
     const productId = cartItem.productId;
@@ -29,8 +29,8 @@ export function renderOrderSummary() {
 
     const today = dayjs();
     const deliveryDate = today
-      .add(deliveryOption.deliveryDays, 'days')
-      .format('dddd, MMMM D');
+      .add(deliveryOption.deliveryDays, "days")
+      .format("dddd, MMMM D");
 
     cartSummaryHTML += `
     <div class="cart-item-container js-cart-item-container-${
@@ -46,9 +46,9 @@ export function renderOrderSummary() {
 
         <div class="cart-item-details">
           <div class="product-name">${matchingProduct.name}</div>
-          <div class="product-price">$${twoDecimalPlaces(
-            matchingProduct.priceCents,
-          )}</div>
+          <div class="product-price">
+            ${matchingProduct.getPrice()}
+          </div>
           <div class="product-quantity">
             <span> Quantity: <span class="quantity-label">${
               cartItem.quantity
@@ -75,21 +75,21 @@ export function renderOrderSummary() {
     </div>
   `;
 
-    document.querySelector('.order-summary').innerHTML = cartSummaryHTML;
+    document.querySelector(".order-summary").innerHTML = cartSummaryHTML;
   });
 
   function deliveryOptionsHTML(matchingProduct, cartItem) {
-    let html = '';
+    let html = "";
 
     deliveryOptions.forEach((deliveryOption) => {
       const today = dayjs();
       const deliveryDate = today
-        .add(deliveryOption.deliveryDays, 'days')
-        .format('dddd, MMMM D');
+        .add(deliveryOption.deliveryDays, "days")
+        .format("dddd, MMMM D");
 
       const priceString =
         deliveryOption.priceCents === 0
-          ? 'FREE'
+          ? "FREE"
           : `$${twoDecimalPlaces(deliveryOption.priceCents)}`;
 
       const isChecked = deliveryOption.id === cartItem.deliveryOptionId;
@@ -103,7 +103,7 @@ export function renderOrderSummary() {
           type="radio"
           class="delivery-option-input"
           name="delivery-option-${matchingProduct.id}"
-          ${isChecked ? 'checked' : ''}
+          ${isChecked ? "checked" : ""}
         />
         <div>
           <div class="delivery-option-date">
@@ -119,8 +119,8 @@ export function renderOrderSummary() {
     return html;
   }
 
-  document.querySelectorAll('.delete-quantity-link').forEach((deleteLink) => {
-    deleteLink.addEventListener('click', () => {
+  document.querySelectorAll(".delete-quantity-link").forEach((deleteLink) => {
+    deleteLink.addEventListener("click", () => {
       const productId = deleteLink.dataset.productId;
 
       removeFromCart(productId);
@@ -132,13 +132,13 @@ export function renderOrderSummary() {
 
       cartItemContainer.remove();
 
-      updateCartQuantity('js-checkout-items');
+      updateCartQuantity("js-checkout-items");
       renderPaymentSummary();
     });
   });
 
-  document.querySelectorAll('.js-delivery-option').forEach((element) => {
-    element.addEventListener('click', () => {
+  document.querySelectorAll(".js-delivery-option").forEach((element) => {
+    element.addEventListener("click", () => {
       const { productId, deliveryOptionId } = element.dataset;
 
       updateDeliveryOption(productId, deliveryOptionId);

@@ -1,10 +1,10 @@
-import { addToCart, updateCartQuantity } from '../data/cart.js';
-import { products } from '../data/products.js';
-import { twoDecimalPlaces } from './utils/money.js';
+import { addToCart, updateCartQuantity } from "../data/cart.js";
+import { products } from "../data/products.js";
+import { twoDecimalPlaces } from "./utils/money.js";
 
-let productsHTML = '';
+let productsHTML = "";
 
-updateCartQuantity('cart-quantity');
+updateCartQuantity("cart-quantity");
 
 products.forEach((product) => {
   productsHTML += `
@@ -23,16 +23,16 @@ products.forEach((product) => {
         <div class="product-rating-container">
           <img
             class="product-rating-stars"
-            src="images/ratings/rating-${product.rating.stars * 10}.png"
+            src="${product.getStarsUrl()}"
           />
           <div class="product-rating-count link-primary">${
             product.rating.count
           }</div>
         </div>
 
-        <div class="product-price">$${twoDecimalPlaces(
-          product.priceCents,
-        )}</div>
+        <div class="product-price">
+          ${product.getPrice()}
+        </div>
 
         <div class="product-quantity-container">
           <select>
@@ -62,18 +62,18 @@ products.forEach((product) => {
       </div>`;
 });
 
-document.querySelector('.products-grid').innerHTML = productsHTML;
+document.querySelector(".products-grid").innerHTML = productsHTML;
 
-document.querySelectorAll('.add-to-cart-button').forEach((button, index) => {
-  button.addEventListener('click', () => {
+document.querySelectorAll(".add-to-cart-button").forEach((button, index) => {
+  button.addEventListener("click", () => {
     const productId = button.dataset.productId;
 
     addToCart(productId);
 
-    document.querySelectorAll('.added-to-cart')[index].style.opacity = '1';
-    updateCartQuantity('cart-quantity');
+    document.querySelectorAll(".added-to-cart")[index].style.opacity = "1";
+    updateCartQuantity("cart-quantity");
     setTimeout(() => {
-      document.querySelectorAll('.added-to-cart')[index].style.opacity = '0';
+      document.querySelectorAll(".added-to-cart")[index].style.opacity = "0";
     }, 1000);
   });
 });
