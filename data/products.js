@@ -28,7 +28,7 @@ class Product {
   }
 
   getStarsUrl() {
-    return `images/ratings/rating/${this.rating.stars * 10}.png`;
+    return `images/ratings/rating-${this.rating.stars * 10}.png`;
   }
 
   getPrice() {
@@ -507,8 +507,6 @@ export const products = [
     priceCents: 2400,
     keywords: ["sweaters", "hoodies", "apparel", "mens"],
   },
-];
-
-products.map((product) => {
-  const newProduct = new Product(product);
+].map((product) => {
+  return new Product(product);
 });
