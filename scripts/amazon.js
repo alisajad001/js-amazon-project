@@ -1,12 +1,15 @@
 import { addToCart, updateCartQuantity } from "../data/cart.js";
-import { products } from "../data/products.js";
+import { loadProducts, products } from "../data/products.js";
 
-let productsHTML = "";
+loadProducts(renderProductsGrid);
 
-updateCartQuantity("cart-quantity");
+function renderProductsGrid() {
+  let productsHTML = "";
 
-products.forEach((product) => {
-  productsHTML += `
+  updateCartQuantity("cart-quantity");
+
+  products.forEach((product) => {
+    productsHTML += `
       <div class="product-container">
         <div class="product-image-container">
           <img
@@ -61,20 +64,21 @@ products.forEach((product) => {
           product.id
         }">Add to Cart</button>
       </div>`;
-});
-
-document.querySelector(".products-grid").innerHTML = productsHTML;
-
-document.querySelectorAll(".add-to-cart-button").forEach((button, index) => {
-  button.addEventListener("click", () => {
-    const productId = button.dataset.productId;
-
-    addToCart(productId);
-
-    document.querySelectorAll(".added-to-cart")[index].style.opacity = "1";
-    updateCartQuantity("cart-quantity");
-    setTimeout(() => {
-      document.querySelectorAll(".added-to-cart")[index].style.opacity = "0";
-    }, 1000);
   });
-});
+
+  document.querySelector(".products-grid").innerHTML = productsHTML;
+
+  document.querySelectorAll(".add-to-cart-button").forEach((button, index) => {
+    button.addEventListener("click", () => {
+      const productId = button.dataset.productId;
+
+      addToCart(productId);
+
+      document.querySelectorAll(".added-to-cart")[index].style.opacity = "1";
+      updateCartQuantity("cart-quantity");
+      setTimeout(() => {
+        document.querySelectorAll(".added-to-cart")[index].style.opacity = "0";
+      }, 1000);
+    });
+  });
+}
