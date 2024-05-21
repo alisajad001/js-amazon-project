@@ -6,13 +6,18 @@ import { loadCart } from "../data/cart.js";
 // import "../data/cart-oop.js";
 
 async function loadPage() {
-  await loadProductsFetch();
+  try {
+    await loadProductsFetch();
 
-  const value = await new Promise((resolve) => {
-    loadCart(() => {
-      resolve();
+    const value = await new Promise((resolve, reject) => {
+      loadCart(() => {
+        // reject("Error 3");
+        resolve();
+      });
     });
-  });
+  } catch (err) {
+    console.log("Unexpected error. " + err);
+  }
 
   renderOrderSummary();
   renderPaymentSummary();
