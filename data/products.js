@@ -71,14 +71,13 @@ export function loadProducts(func) {
       return new Product(product);
     });
 
+    console.log("load products");
     func();
   });
 
   xhr.open("GET", "https://supersimplebackend.dev/products");
   xhr.send();
 }
-
-loadProducts();
 
 // export const products = [
 //   {
